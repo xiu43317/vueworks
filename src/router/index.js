@@ -5,6 +5,7 @@ import Index from '../pages/index'
 import Aboutus from '../pages/aboutus.vue'
 import Contact from '../pages/contactus.vue'
 import Products from '../pages/products.vue'
+import cart from '../pages/cart.vue'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path:'/contactus',
       name:'contact',
       component: Contact
+    },
+    {
+      path: 'cart',
+      name: 'cart',
+      component: cart
     },
     { path: '/*', redirect: '/index' },
   ]
