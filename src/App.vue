@@ -16,12 +16,20 @@
     </ul>
     <br />
     <router-view />
+    <!-- loading 拉到最外層，可以讓所有頁面使用。 -->
+    <div v-if="loading" class="spinner-border text-success" style="width: 50px; height: 50px;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters} from 'vuex';
 export default {
   name: "App",
+  computed: mapGetters({
+    loading: 'getLoading'
+  }),
 };
 </script>
 
@@ -34,4 +42,4 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-</style>
+</style> 
