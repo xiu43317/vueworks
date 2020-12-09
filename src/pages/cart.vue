@@ -8,7 +8,13 @@
           <i class="fa fa-shopping-cart w3-margin-right fa-2x">{{
             cartTotal
           }}</i>
-          <i class="fa fa-file-text-o fa-2x" aria-hidden="true"></i>
+          <i
+            class="fa fa-file-text-o fa-2x"
+            @click="toggleModal"
+            aria-hidden="true"
+            style="cursor: pointer"
+            >{{ order.length }}</i
+          >
         </div>
       </form>
     </nav>
@@ -30,11 +36,12 @@
             </h3>
             <h2>${{ recommend.price }}</h2>
             <button class="btn btn-danger" @click="addCart(recommend.title)">
-              <span
-                class="glyphicon glyphicon-shopping-cart"
-                aria-hidden="true"
-              ></span>
+              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
               加購
+            </button>
+            <button class="btn btn-primary" @click="changeType">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              換商品
             </button>
           </div>
         </div>
@@ -55,7 +62,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(cart, index) in cartList">
+          <tr v-for="(cart, index) in cartList" :key="index">
             <td>{{ index + 1 }}</td>
             <td>{{ cart.price }}</td>
             <td>{{ cart.title }}</td>
@@ -79,7 +86,8 @@
               @keyup.esc="cancelEdit"
               @keyup.enter="actionEditCart"
               @blur="cancelEdit"
-              min="1" max="10"
+              min="1"
+              :max="maxNumber"
             />
           </tr>
         </tbody>
@@ -91,55 +99,93 @@
           :to="{ name: 'products' }"
           class="btn btn-warning btn-lg btn-block"
         >
-          <span
-            class="glyphicon glyphicon-arrow-left"
-            aria-hidden="true"
-          ></span>
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
           back to Shop
         </router-link>
       </div>
       <div class="col-md-6 center-block">
-        <button class="btn btn-success btn-lg btn-block center-block">
-          <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+        <button
+          class="btn btn-success btn-lg btn-block center-block"
+          fa-pull-right
+          @click="confirmOrder"
+        >
+          <i class="fa fa-usd" aria-hidden="true"></i>
           buy now
         </button>
       </div>
     </div>
+    <modal :show="show" :active="active" @toggleModal="toggleModal" />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import modal from "../components/modal";
 
 export default {
+  components: {
+    modal,
+  },
   data() {
     return {
+      show: false,
+      active: false,
       item: {},
-      itemNumber:0,
+      itemNumber: 0,
     };
   },
-  computed: mapGetters({
-    cartTotal: "getShoppingCartTotal",
-    cartList: "getShoppingCart",
-    total: "getCartPriceTotal",
-    recommend: "getRecommendedProducts",
-  }),
+  computed: {
+    ...mapGetters({
+      cartTotal: "getShoppingCartTotal",
+      cartList: "getShoppingCart",
+      total: "getCartPriceTotal",
+      recommend: "getRecommendedProducts",
+      products: "getProducts",
+      order: "getOrder",
+      maxNumber: "getMaxNumber",
+    }),
+  },
   methods: {
-    ...mapActions(["cancelCart", "addCart"]),
+    ...mapActions(["cancelCart", "addCart", "confirmOrder", "changeType"]),
     editNumber(cart) {
       this.item = cart;
       this.itemNumber = cart.number;
+      this.setMaxNumber();
     },
     cancelEdit() {
       this.item = {};
       this.itemNumber = 0;
     },
     actionEditCart() {
-      this.item.number = this.itemNumber;
-      this.$store.dispatch('editCart',this.item);
-      this.item={};
-      this.itemNumber=0;
-    }
+      var item = this.item;
+      var itemNumber = this.itemNumber;
+      this.$store.dispatch("editCart", { item, itemNumber });
+      this.item = {};
+      this.itemNumber = 0;
+    },
+    toggleModal() {
+      const body = document.querySelector("body");
+      this.active = !this.active;
+      this.active
+        ? body.classList.add("modal-open")
+        : body.classList.remove("modal-open");
+      setTimeout(() => (this.show = !this.show), 10);
+    },
+    setMaxNumber() {
+      const item = this.item;
+      this.$store.dispatch("setMaxNumber", item);
+      console.log(this.maxNumber);
+    },
+  },
+  watch: {
+    itemNumber: function () {
+      if (this.itemNumber > this.maxNumber) {
+        this.itemNumber = this.maxNumber;
+      }
+      if (parseInt(this.itemNumber) < 1) {
+        this.itemNumber = 1;
+      }
+    },
   },
 };
 </script>

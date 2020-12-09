@@ -24,7 +24,7 @@
       </ul>
     </div>
     <ul class="list-group list-group-flush text-left">
-      <li class="list-group-item" v-for="(item,index) in filteredTodos" @dblclick="editTodo(item)">
+      <li class="list-group-item" v-for="(item,index) in filteredTodos" @dblclick="editTodo(item)" :key="index">
         <div class="d-flex"  v-if="item.key !== cacheTodo.key">
           <div class="form-check">
             <input type="checkbox" class="form-check-input"  v-model="item.completed">

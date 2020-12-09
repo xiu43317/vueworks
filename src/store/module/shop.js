@@ -1,15 +1,18 @@
 const types = {
   ADD_CART: 'store/ADD_CART',
   CANCEL_CART: 'store/CANCEL_CART',
-  EDIT_CART: 'store/EDIT_CART'
+  EDIT_CART: 'store/EDIT_CART',
+  CONFIRM_ORDER: 'store/CONFIRM_OEDER',
+  SET_MAXNUMBER: 'store/SET_MAXNUMBER',
+  CHANGE_TYPE: 'store/CHANGE_TYPE',
 }
 
 const state = {
   // 賣完了的圖示
-  soldout:{
+  soldout: {
     title: 'Sorry, We are sold out',
     image: 'https://qshopdotblog.files.wordpress.com/2018/03/sold-out-jpeg.jpg?w=1101&h=737&crop=1',
-    price:0,
+    price: 0,
   },
   // 衣服列表
   products: [
@@ -40,6 +43,14 @@ const state = {
   ],
   // 購物車
   shoppingCart: [],
+  // 採買清單
+  order: [],
+  // 最大值
+  maxNumber: 0,
+  // 隨機取值
+  randomNumber: 0,
+  // 頁數
+  page: 0,
 }
 
 const getters = {
@@ -56,14 +67,25 @@ const getters = {
     // 先取得庫存衣服列表
     const inventoryList = state.products.filter(p => p.inventory > 0);
     // 取隨機數
-    const random = Math.round(Math.random() * (inventoryList.length - 1));
+    // const random = Math.round(Math.random() * (inventoryList.length - 1));
+    // 不重複頁面
+    var page = state.page%inventoryList.length;
     // 回傳隨機數的衣服
-    if(inventoryList.length > 0){
-      return inventoryList[random];
-    }else{
+    if (inventoryList.length > 0) {
+      return inventoryList[page];
+    }
+    else {
       return state.soldout;
     }
-    
+
+  },
+  // 得到最大值
+  getMaxNumber: state => {
+    return state.maxNumber;
+  },
+  // 訂單確認狀況
+  getOrder: state => {
+    return state.order;
   }
 }
 
@@ -75,7 +97,16 @@ const actions = {
     commit(types.CANCEL_CART, id);
   },
   editCart({ commit }, obj) {
-    commit(types.EDIT_CART,obj);
+    commit(types.EDIT_CART, obj);
+  },
+  confirmOrder({ commit }) {
+    commit(types.CONFIRM_ORDER);
+  },
+  setMaxNumber({ commit }, obj) {
+    commit(types.SET_MAXNUMBER, obj);
+  },
+  changeType({ commit }) {
+    commit(types.CHANGE_TYPE);
   }
 }
 
@@ -106,10 +137,27 @@ const mutations = {
     const product = state.products.find(item => item.title === title);
     product.inventory += backInventory;
   },
-  [types.EDIT_CART](state,obj){
-    const product = state.products.find(item => item.title === obj.title);
-    product.inventory = (10 - parseInt(obj.number));
-    state.shoppingCart.find(item => item.title === obj.title).number = parseInt(obj.number);
+  [types.EDIT_CART](state, obj) {
+    const product = state.products.find(item => item.title === obj.item.title);
+    product.inventory += parseInt(state.shoppingCart.find(item => item.title === obj.item.title).number);
+    console.log(product.inventory);
+    product.inventory -= parseInt(obj.itemNumber);
+    console.log(product.inventory);
+    state.shoppingCart.find(item => item.title === obj.item.title).number = parseInt(obj.itemNumber);
+  },
+  [types.CONFIRM_ORDER](state) {
+    const totalprice = state.shoppingCart.reduce((a, b) => a + b.price * b.number, 0);
+    state.order.push({ childList: state.shoppingCart, total: totalprice.toFixed(2) });
+    state.shoppingCart = [];
+  },
+  [types.SET_MAXNUMBER](state, obj) {
+    const inventory = state.products.find(item => item.title === obj.title).inventory;
+    const cartNumber = state.shoppingCart.find(item => item.title === obj.title).number;
+    state.maxNumber = inventory + cartNumber;
+  },
+  [types.CHANGE_TYPE](state) {
+    state.page ++;
+    console.log(state.page);
   }
 }
 
