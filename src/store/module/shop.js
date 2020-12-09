@@ -147,8 +147,13 @@ const mutations = {
   },
   [types.CONFIRM_ORDER](state) {
     const totalprice = state.shoppingCart.reduce((a, b) => a + b.price * b.number, 0);
+    if(totalprice !== 0){
+    alert("恭喜購買")
     state.order.push({ childList: state.shoppingCart, total: totalprice.toFixed(2) });
     state.shoppingCart = [];
+    }else {
+      alert("購物車不能為空");
+    }
   },
   [types.SET_MAXNUMBER](state, obj) {
     const inventory = state.products.find(item => item.title === obj.title).inventory;
@@ -157,7 +162,6 @@ const mutations = {
   },
   [types.CHANGE_TYPE](state) {
     state.page ++;
-    console.log(state.page);
   }
 }
 
