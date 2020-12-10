@@ -30,13 +30,13 @@ const i18n = new VueI18n({
 // 頁面轉跳驗證
 router.beforeEach((to, from, next) => {
   // 如果 router 轉跳的頁面需要驗證 requiresAuth: true
-  console.log('to=', to.fullPath, '| from=', from.fullPath);
+  //console.log('to=', to.fullPath, '| from=', from.fullPath);
   if (to.matched.some(record => {
-    console.log(record.name, record.meta.requiresAuth);
+    //console.log(record.name, record.meta.requiresAuth);
     return record.meta.requiresAuth;
   })) {
     // 如果沒有 token 
-    console.log('token?', store.state.token);
+    //console.log('token?', store.state.token);
     if (store.state.token === '') {
       // 轉跳到 login page
       next({ path: '/index' });

@@ -1,9 +1,12 @@
 <template>
-  <div id="app">
+  <div>
+    <div id="goToTop" class="go-to-top" @click="scrollToTop" v-if="isScrollTop">
+      <i class="fa fa-arrow-circle-up fa-3x" aria-hidden="true"></i>
+    </div>
     <div v-if="loading" class="loader is-active"></div>
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
       <!-- Brand -->
-      <router-link class="nav-link" to="/index">首頁</router-link>
+      <a class="navbar-brand" href="#/index">首頁</a>
 
       <!-- Toggler/collapsibe Button -->
       <button
@@ -17,8 +20,12 @@
       </button>
 
       <!-- Navbar links -->
-      <div class="collapse navbar-collapse" id="collapsibleNavbar" :class="{'show':show}">
-        <ul class="navbar-nav">
+      <div
+        class="collapse navbar-collapse"
+        id="collapsibleNavbar"
+        :class="{ show: show }"
+      >
+        <ul class="navbar-nav mr-auto">
           <li class="nav-item" v-if="auth">
             <router-link class="nav-link" to="/aboutus">OPEN1999</router-link>
           </li>
@@ -46,16 +53,39 @@ export default {
   data() {
     return {
       show: false,
+      // 定義滾動位置
+      scrollTop:null,
+      // 定義按鍵出現
+      isScrollTop:false,
     };
+  },
+  mounted(){
+    window.addEventListener('scroll',()=>{
+      this.scrollTop = document.documentElement.scrollTop
+      // 控制按鈕隱藏跟顯示
+      if(this.scrollTop > 200){
+        this.isScrollTop = true;
+      }else{
+        this.isScrollTop = false;
+      }
+    },true)
   },
   methods: {
     toggleNavbar() {
       this.show = !this.show;
     },
+    scrollToTop(){
+      setTimeout(()=>{
+        if(document.documentElement.scrollTop>0){
+          document.documentElement.scrollTop-=30;
+          this.scrollToTop();
+        }
+      },1);
+    },
   },
   computed: mapGetters({
     loading: "getLoading",
-    auth: 'getLogin',
+    auth: "getLogin",
   }),
 };
 </script>
@@ -73,6 +103,8 @@ export default {
   position: fixed;
   left: 50%;
   top: 50%;
+  margin-left: -50px;
+  margin-top: -50px;
   z-index: 100;
   width: 100px;
   height: 100px;
@@ -98,5 +130,13 @@ export default {
   height: 100%;
   left: 0;
   top: 0;
+}
+.go-to-top {
+  cursor: pointer;
+
+  position: fixed;
+  bottom: 5rem;
+  right: 1.4rem;
+  z-index: 999;
 }
 </style> 

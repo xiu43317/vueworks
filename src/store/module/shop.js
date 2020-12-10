@@ -142,9 +142,9 @@ const mutations = {
   [types.EDIT_CART](state, obj) {
     const product = state.products.find(item => item.title === obj.item.title);
     product.inventory += parseInt(state.shoppingCart.find(item => item.title === obj.item.title).number);
-    console.log(product.inventory);
+    //console.log(product.inventory);
     product.inventory -= parseInt(obj.itemNumber);
-    console.log(product.inventory);
+    //console.log(product.inventory);
     state.shoppingCart.find(item => item.title === obj.item.title).number = parseInt(obj.itemNumber);
   },
   [types.CONFIRM_ORDER](state) {

@@ -17,13 +17,13 @@ export const actions = {
     },
     // login
     actionLogin({ commit }, { email, password }) {
-        console.log('1. actionLogin');
+        //console.log('1. actionLogin');
         commit(types.LOADING, true); // 打開遮罩
         // 使用 Promise 包裝 API
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 if (email === 'xiu43317@gmail.com' && password === '1234') {
-                    console.log('2. Promise resolve');
+                    //console.log('2. Promise resolve');
                     commit(types.TOKEN, '3345678'); // success 儲存 token
                     commit(types.LOADING, false); // 關閉遮罩
                     resolve(); // resolve 結果會在 then 裡面收到

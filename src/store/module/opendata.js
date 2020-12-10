@@ -46,7 +46,7 @@ const actions = {
                     return response.json();
                 }
                 else {
-                    console.error(response);
+                    //console.error(response);
                     commit(rootypes.LOADING, false);
                 }
             })

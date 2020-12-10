@@ -92,7 +92,7 @@ export default {
         })
         .then(() => {
           // 使用 $router.push 轉跳到 hello Page
-          console.log("3. get Promise resolve");
+          //console.log("3. get Promise resolve");
           setTimeout(() => {
             //this.$router.push("/hello");
             this.$swal({
@@ -102,7 +102,7 @@ export default {
           }, 1000);
         })
         .catch(() => {
-          console.log("error get Promise reject!");
+          //console.log("error get Promise reject!");
           this.$swal({
             icon: "error",
             title: "帳密有誤",
@@ -126,7 +126,7 @@ export default {
   }),
   created() {
     // 在 vue 調用 router
-    console.log("vue created:", this.$route.matched[0]);
+    //console.log("vue created:", this.$route.matched[0]);
   },
 };
 </script>

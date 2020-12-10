@@ -174,7 +174,7 @@ export default {
     setMaxNumber() {
       const item = this.item;
       this.$store.dispatch("setMaxNumber", item);
-      console.log(this.maxNumber);
+      //console.log(this.maxNumber);
     },
   },
   watch: {
