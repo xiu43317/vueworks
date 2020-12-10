@@ -16,6 +16,16 @@
             <label for="slideThree"></label>
           </div>
         </div>
+        <button
+          id="signout"
+          v-if="auth"
+          class="btn btn-lg btn-primary btn-block"
+          type="submit"
+          @click="actionLogout"
+        >
+          {{ $t("Sign_out") }}
+        </button>
+        <div v-if="!auth">
         <h2 class="form-signin-heading">{{ $t("Please_sign_in") }}</h2>
         <label for="email" class="sr-only">Email address</label>
         <input
@@ -51,7 +61,7 @@
         >
           {{ $t("Sign_in") }}
         </button>
-        <br />
+      </div>
       </div>
     </div>
   </div>
@@ -69,6 +79,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+        'actionLogout',
+    ]),
     // 因為 action 包裝了 Promise 所以可以使用 then 和 catch 來接收非同步回傳狀態
     login() {
       this.$store
@@ -80,7 +93,7 @@ export default {
           // 使用 $router.push 轉跳到 hello Page
           console.log("3. get Promise resolve");
           setTimeout(() => {
-            this.$router.push("/hello");
+            //this.$router.push("/hello");
           }, 1000);
         })
         .catch(() => {
@@ -92,6 +105,9 @@ export default {
       this.$i18n.locale = value;
     },
   },
+    computed: mapGetters({
+    auth: 'getLogin'
+  }),
   created() {
     // 在 vue 調用 router
     console.log("vue created:", this.$route.matched[0]);
@@ -139,6 +155,9 @@ export default {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+#signout{
+margin-top: 30%;
 }
 /* switch */
 $switch-width: 160px;

@@ -2,11 +2,13 @@ import * as types from './mutations_types.js';
 
 export const state = {
     loading: false,
+    login: false,
     token: '',
 }
 
 export const getters = {
     getLoading: state => state.loading,
+    getLogin: state => state.login,
 }
 
 export const actions = {
@@ -33,6 +35,9 @@ export const actions = {
                 }
             }, 1500);
         });
+    },
+    actionLogout({ commit }) {
+        commit(types.TOKEN, '')
     }
 }
 
@@ -40,7 +45,12 @@ export const mutations = {
     [types.LOADING](state, isLoading) {
         state.loading = isLoading;
     },
-    [types.TOKEN] (state, token) {
+    [types.TOKEN](state, token) {
         state.token = token;
+        if (token !== '') {
+            state.login = true;
+        } else {
+            state.login = false;
+        }
     },
 }
