@@ -1,7 +1,8 @@
 import * as types from './mutations_types.js';
 
 export const state = {
-  loading: false,
+    loading: false,
+    token: '',
 }
 
 export const getters = {
@@ -9,13 +10,37 @@ export const getters = {
 }
 
 export const actions = {
-  toggleLoading ({ commit }, isLoading) {
-    commit(types.LOADING, isLoading);
-  },
+    toggleLoading({ commit }, isLoading) {
+        commit(types.LOADING, isLoading);
+    },
+    // login
+    actionLogin({ commit }, { email, password }) {
+        console.log('1. actionLogin');
+        commit(types.LOADING, true); // 打開遮罩
+        // 使用 Promise 包裝 API
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (email === 'xiu43317@gmail.com' && password === '1234') {
+                    console.log('2. Promise resolve');
+                    commit(types.TOKEN, '3345678'); // success 儲存 token
+                    commit(types.LOADING, false); // 關閉遮罩
+                    resolve(); // resolve 結果會在 then 裡面收到
+                }
+                // error
+                else {
+                    commit(types.LOADING, false); // 關閉遮罩
+                    reject(); // reject 結果會在 catch 裡面收到
+                }
+            }, 1500);
+        });
+    }
 }
 
 export const mutations = {
-  [types.LOADING] (state, isLoading) {
-    state.loading = isLoading;
-  },
+    [types.LOADING](state, isLoading) {
+        state.loading = isLoading;
+    },
+    [types.TOKEN] (state, token) {
+        state.token = token;
+    },
 }

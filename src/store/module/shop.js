@@ -148,7 +148,7 @@ const mutations = {
   [types.CONFIRM_ORDER](state) {
     const totalprice = state.shoppingCart.reduce((a, b) => a + b.price * b.number, 0);
     if(totalprice !== 0){
-    alert("恭喜購買")
+    alert("謝謝購買")
     state.order.push({ childList: state.shoppingCart, total: totalprice.toFixed(2) });
     state.shoppingCart = [];
     }else {

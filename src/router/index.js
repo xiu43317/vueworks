@@ -14,27 +14,38 @@ export default new Router({
     {
       path:'/index',
       name:'index',
-      component:Index
+      component:Index,
+      meta: {requiresAuth:false},
     },
     {
       path:'/aboutus',
       name:'aboutus',
-      component: Aboutus
+      component: Aboutus,
+      meta: {requiresAuth:true},
     },
     {
       path:'/products',
       name:'products',
-      component: Products
+      component: Products,
+      meta: {requiresAuth:true},
     },
     {
       path:'/contactus',
       name:'contact',
-      component: Contact
+      component: Contact,
+      meta: {requiresAuth:true},
     },
     {
-      path: 'cart',
+      path: '/cart',
       name: 'cart',
-      component: cart
+      component: cart,
+      meta: {requiresAuth:true},
+    },
+    {
+      path: '/hello',
+      name: 'hello',
+      component: HelloWorld,
+      meta: {requiresAuth:true},
     },
     { path: '/*', redirect: '/index' },
   ]

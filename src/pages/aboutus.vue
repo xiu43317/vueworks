@@ -3,8 +3,8 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
            <a class="navbar-brand" href="#">Open1999</a>
-        <div class="navbar-form navbar-left">
-         <div class="input-group">
+        <div class="form-inline">
+         <div class="form-group mb-2">
           <div class="form-inline my-2 my-lg-0">
             <label for="searchRegion">搜尋地區：</label>
             <select id="searchRegion" class="form-control mr-sm-2" v-model="searchRegion">
@@ -14,10 +14,9 @@
               </option>
             </select>
           </div>
-          <i class="fa fa-search fa-2x" aria-hidden="true"></i>
             <input
               type="text"
-              class="form-control"
+              class="form-control mr-sm-2"
               placeholder="Search"
               v-model="searchKeyword"
               @keyup="handleWorkSearch">
