@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 import VueI18n from 'vue-i18n';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import "./directive/custom-directive"
 import en from './i18n/en.json'; // 存放英文翻譯
 import tw from './i18n/tw.json'; // 存放繁體中文翻譯
@@ -13,6 +15,8 @@ Vue.config.productionTip = false
 
 // 初始化vuei18n
 Vue.use(VueI18n);
+// 初始化sweetalert
+Vue.use(VueSweetalert2);
 
 // 目前的語系寫法先產生一個物件，類似store的做法
 const i18n = new VueI18n({

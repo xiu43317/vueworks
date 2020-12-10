@@ -12,6 +12,13 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path:'/',
+      name:'index',
+      component:Index,
+      meta: {requiresAuth:false},
+
+    },
+    {
       path:'/index',
       name:'index',
       component:Index,
@@ -39,12 +46,6 @@ export default new Router({
       path: '/cart',
       name: 'cart',
       component: cart,
-      meta: {requiresAuth:true},
-    },
-    {
-      path: '/hello',
-      name: 'hello',
-      component: HelloWorld,
       meta: {requiresAuth:true},
     },
     { path: '/*', redirect: '/index' },

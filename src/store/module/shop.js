@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 const types = {
   ADD_CART: 'store/ADD_CART',
   CANCEL_CART: 'store/CANCEL_CART',
@@ -148,11 +150,30 @@ const mutations = {
   [types.CONFIRM_ORDER](state) {
     const totalprice = state.shoppingCart.reduce((a, b) => a + b.price * b.number, 0);
     if(totalprice !== 0){
-    alert("謝謝購買")
-    state.order.push({ childList: state.shoppingCart, total: totalprice.toFixed(2) });
-    state.shoppingCart = [];
+    Vue.swal({
+      icon:'warning',
+      title: '確定購買嗎',
+      showCancelButton: true,
+      confirmButtonText: '確認',
+      cancelButtonText: '放棄',
+      showCloseButton: true,
+      showLoaderOnConfirm: true
+    }).then((result) => {
+      if(result.value) {
+        Vue.swal('購買成功', '感謝你的購買', 'success');
+        state.order.push({ childList: state.shoppingCart, total: totalprice.toFixed(2) });
+        state.shoppingCart = [];
+      } else {
+        Vue.swal('取消購買', '再多考慮一下吧', 'info')
+      }
+    });
     }else {
-      alert("購物車不能為空");
+      Vue.swal({
+        icon:'error',
+        title:'出錯囉',
+        text:'購物車不得為空',
+        confirmButtonText: '確認',
+      });
     }
   },
   [types.SET_MAXNUMBER](state, obj) {

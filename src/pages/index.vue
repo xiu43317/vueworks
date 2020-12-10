@@ -1,10 +1,10 @@
 <template>
   <div id="login">
     <img src="static/cheerup.png" class="responsive-img" />
-    <div class="container" style="text-align:left">
+    <div class="container" style="text-align: left">
       <div class="form-signin">
         <div class="row">
-          <div class="slideThree pull-right" style="left:50%">
+          <div class="slideThree pull-right" style="left: 50%">
             <input
               type="checkbox"
               v-model="lang"
@@ -21,47 +21,51 @@
           v-if="auth"
           class="btn btn-lg btn-primary btn-block"
           type="submit"
-          @click="actionLogout"
+          @click="logout"
         >
           {{ $t("Sign_out") }}
         </button>
         <div v-if="!auth">
-        <h2 class="form-signin-heading">{{ $t("Please_sign_in") }}</h2>
-        <label for="email" class="sr-only">Email address</label>
-        <input
-          v-model="email"
-          type="email"
-          id="email"
-          class="form-control"
-          :placeholder="$t('Email_address')"
-          required
-          autofocus
-        />
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input
-          v-model="password"
-          v-toggle-password="togglePassword"
-          @keyup.enter="login"
-          type="password"
-          id="inputPassword"
-          class="form-control"
-          :placeholder="$t('Password')"
-          required
-        />
-        <!-- 1. check box 雙向綁定[布林] -->
-        <div class="squaredFour" style="margin: 20px 10px">
-          <input type="checkbox" v-model="togglePassword" id="togglePassword" />
-          <label for="togglePassword" class="checkbox-icon"></label>
-          <label for="togglePassword">{{ $t("Show_password") }}</label>
+          <h2 class="form-signin-heading">{{ $t("Please_sign_in") }}</h2>
+          <label for="email" class="sr-only">Email address</label>
+          <input
+            v-model="email"
+            type="email"
+            id="email"
+            class="form-control"
+            :placeholder="$t('Email_address')"
+            required
+            autofocus
+          />
+          <label for="inputPassword" class="sr-only">Password</label>
+          <input
+            v-model="password"
+            v-toggle-password="togglePassword"
+            @keyup.enter="login"
+            type="password"
+            id="inputPassword"
+            class="form-control"
+            :placeholder="$t('Password')"
+            required
+          />
+          <!-- 1. check box 雙向綁定[布林] -->
+          <div class="squaredFour" style="margin: 20px 10px">
+            <input
+              type="checkbox"
+              v-model="togglePassword"
+              id="togglePassword"
+            />
+            <label for="togglePassword" class="checkbox-icon"></label>
+            <label for="togglePassword">{{ $t("Show_password") }}</label>
+          </div>
+          <button
+            class="btn btn-lg btn-primary btn-block"
+            type="submit"
+            @click="login"
+          >
+            {{ $t("Sign_in") }}
+          </button>
         </div>
-        <button
-          class="btn btn-lg btn-primary btn-block"
-          type="submit"
-          @click="login"
-        >
-          {{ $t("Sign_in") }}
-        </button>
-      </div>
       </div>
     </div>
   </div>
@@ -79,9 +83,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions([
-        'actionLogout',
-    ]),
     // 因為 action 包裝了 Promise 所以可以使用 then 和 catch 來接收非同步回傳狀態
     login() {
       this.$store
@@ -94,19 +95,34 @@ export default {
           console.log("3. get Promise resolve");
           setTimeout(() => {
             //this.$router.push("/hello");
+            this.$swal({
+              icon: "success",
+              title: "登入成功",
+            });
           }, 1000);
         })
         .catch(() => {
           console.log("error get Promise reject!");
+          this.$swal({
+            icon: "error",
+            title: "帳密有誤",
+          });
         });
+    },
+    logout() {
+      this.$store.dispatch("actionLogout");
+      this.$swal({
+        icon: "info",
+        title: "登出成功",
+      });
     },
     setLang(value) {
       // 要改變語系預設必需給值給locale
       this.$i18n.locale = value;
     },
   },
-    computed: mapGetters({
-    auth: 'getLogin'
+  computed: mapGetters({
+    auth: "getLogin",
   }),
   created() {
     // 在 vue 調用 router
@@ -156,8 +172,8 @@ export default {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-#signout{
-margin-top: 30%;
+#signout {
+  margin-top: 30%;
 }
 /* switch */
 $switch-width: 160px;
