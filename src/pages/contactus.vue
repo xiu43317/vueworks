@@ -32,12 +32,22 @@
               {{item.title}}
             </label>
           </div>
-          <button type="button" class="close ml-auto" aria-label="Close" @click="deleteTodo(item.key)">
-            <span aria-hidden="true">&times;</span>
+          <div class="form-inline ml-auto">
+          <button type="button" class="btn btn-warning" @click="editTodo(item)">
+            <span aria-hidden="true">修改</span>
+            </button>
+          <button type="button" class="btn btn-danger" aria-label="Close" @click="deleteTodo(item.key)">
+            <span aria-hidden="true">刪除</span>
           </button>
+          </div>
         </div>
-        <input type="text" class="form-control" v-if="item.key == cacheTodo.key" 
+        <div class="input-group"  v-if="item.key == cacheTodo.key" >
+        <input type="text" class="form-control"
         v-model="cacheTodo.title" @keyup.esc="cancelEdit" @blur="cancelEdit" @keyup.enter="actionEditTodo">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" @click="cancelEdit">確認</button>
+        </div>
+        </div>
       </li>
     </ul>
     <div class="card-footer d-flex justify-content-between">

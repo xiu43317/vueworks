@@ -3,9 +3,11 @@ const types = {
     REMOVEALL_TODO: 'todo/REMOVEALL_TODO',
     DELETE_TODO: 'todo/DELETE_TODO',
     UPDATE_TODO: 'todo/UPDATE_TODO',
+    CHANGE_SUBPAGE: 'todo/CHANGE_SUBPAGE',
   }
 
   const state = {
+    visibility: 'all',
     todos: [
         {
             key: 0,
@@ -24,6 +26,9 @@ const types = {
       },
       getUndo (state) {
           return state.todos.filter( item => !item.completed);
+      },
+      getPage (state) {
+          return state.visibility;
       }
   }
 
@@ -39,6 +44,9 @@ const types = {
     },
     updateTodo ({ commit }, obj) {
       commit(types.UPDATE_TODO, obj);
+    },
+    changeSubPage( {commit},showPage){
+        commit(types.CHANGE_SUBPAGE,showPage)
     },
   }
 
@@ -70,15 +78,19 @@ const mutations = {
     //更新
     [types.UPDATE_TODO](state,obj){
         state.todos.forEach((item,index) =>{
-            if(item.key === obj.key){
-                item.title = obj.title;
+            if(parseInt(item.key) === parseInt(obj.cacheKey)){
+                item.title = obj.cacheTitle;
             }
         });
     },
     //刪除全部
     [types.REMOVEALL_TODO](state){
         state.todos = [];
-    }
+    },
+    // 顯示第幾頁
+    [types.CHANGE_SUBPAGE](state,showPage){
+        state.visibility = showPage;
+    },
 
 }
 
