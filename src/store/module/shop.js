@@ -19,25 +19,25 @@ const state = {
   // 衣服列表
   products: [
     {
-      title: 'Ripped Skinny jeans',
+      title: 'Ripped Skinny',
       image: 'https://www.w3schools.com/w3images/jeans1.jpg',
       inventory: 10,
       price: 24.99
     },
     {
-      title: 'Mega Ripped Jeans',
+      title: 'Mega Ripped',
       image: 'https://www.w3schools.com/w3images/jeans2.jpg',
       inventory: 10,
       price: 19.99
     },
     {
-      title: 'Washed Skinny Jeans',
+      title: 'Washed Skinny',
       image: 'https://www.w3schools.com/w3images/jeans3.jpg',
       inventory: 10,
       price: 20.50
     },
     {
-      title: 'Vintage Skinny Jeans',
+      title: 'Vintage Skinny',
       image: 'https://www.w3schools.com/w3images/jeans4.jpg',
       inventory: 10,
       price: 14.99
@@ -121,9 +121,9 @@ const mutations = {
     // 衣服加入購物車 title, price 
     if (!state.shoppingCart.filter(item => item.title == id)[0]) {
       state.shoppingCart.push({
+        number: 1,
         title: product.title,
         price: product.price,
-        number: 1,
       });
     } else {
       state.shoppingCart.filter(item => item.title == id)[0].number++

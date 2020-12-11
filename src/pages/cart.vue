@@ -54,30 +54,32 @@
       </div>
       <table class="table">
         <thead>
-          <tr>
-            <th>項目</th>
-            <th>價錢</th>
+          <tr align="center">
             <th>樣式</th>
-            <th>數量</th>
+            <th>單價</th>
+            <th>量</th>
+            <th>功能</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(cart, index) in cartList" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td>{{ cart.price }}</td>
+          <tr v-for="(cart, index) in cartList" :key="index" align="center">
             <td>{{ cart.title }}</td>
-            <td @dblclick="editNumber(cart)" v-if="cart.title !== item.title">
+            <td>{{ cart.price }}</td>
+            <td>
               <span>{{ cart.number }}</span>
+            </td>
+            <td>
+              <button class="btn btn-warning" @click="openEdit(cart)">修改</button>
               <button
                 type="button"
-                class="close ml-auto"
+                class="btn btn-danger ml-auto"
                 aria-label="Close"
                 @click="cancelCart(cart.title)"
               >
-                <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true">刪除</span>
               </button>
             </td>
-            <input
+            <!-- <input
               class="form-control"
               v-model="itemNumber"
               type="number"
@@ -88,7 +90,7 @@
               @blur="cancelEdit"
               min="1"
               :max="maxNumber"
-            />
+            /> -->
           </tr>
         </tbody>
       </table>
@@ -115,19 +117,32 @@
       </div>
     </div>
     <modal :show="show" :active="active" @toggleModal="toggleModal" />
+    <modify-item
+      :show="showEdit"
+      :active="editActive"
+      @toggleModal=" closeEdit"
+      :number="itemNumber"
+      @add="add"
+      @substract="substract"
+      @editCart="actionEditCart"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
 import modal from "../components/modal";
+import modifyItem from "../components/modifyItem";
 
 export default {
   components: {
+    modifyItem,
     modal,
   },
   data() {
     return {
+      showEdit: false,
+      editActive: false,
       show: false,
       active: false,
       item: {},
@@ -162,6 +177,10 @@ export default {
       this.$store.dispatch("editCart", { item, itemNumber });
       this.item = {};
       this.itemNumber = 0;
+      this.showEdit = false;
+      this.editActive = false;
+      const body = document.querySelector("body");
+      body.classList.remove("modal-open");
     },
     toggleModal() {
       const body = document.querySelector("body");
@@ -171,11 +190,32 @@ export default {
         : body.classList.remove("modal-open");
       setTimeout(() => (this.show = !this.show), 10);
     },
+    openEdit(cart) {
+      this.item = cart;
+      this.itemNumber = cart.number;
+      this.setMaxNumber();
+      const body = document.querySelector("body");
+      this.editActive = true;
+      body.classList.add("modal-open");
+      setTimeout(() => (this.showEdit = true), 10);
+    },
+    closeEdit(){
+      const body = document.querySelector("body");
+      this.editActive = false;
+      this.showEdit = false
+      body.classList.remove("modal-open");
+    },
     setMaxNumber() {
       const item = this.item;
       this.$store.dispatch("setMaxNumber", item);
       //console.log(this.maxNumber);
     },
+    add() {
+      this.itemNumber++;
+    },
+    substract() {
+      this.itemNumber--;
+    }
   },
   watch: {
     itemNumber: function () {
