@@ -25,7 +25,7 @@
     </div>
     <ul class="list-group list-group-flush text-left">
       <li class="list-group-item" v-for="(item,index) in filteredTodos" @dblclick="editTodo(item)" :key="index">
-        <div class="d-flex"  v-if="item.key !== cacheTodo.key">
+        <div class="d-flex" v-if="item.title !== cacheTodo.title">
           <div class="form-check">
             <input type="checkbox" class="form-check-input"  v-model="item.completed">
             <label class="form-check-label" :class="{'completed':item.completed}">
@@ -41,11 +41,12 @@
           </button>
           </div>
         </div>
-        <div class="input-group"  v-if="item.key == cacheTodo.key" >
-        <input type="text" class="form-control"
-        v-model="cacheTodo.title" @keyup.esc="cancelEdit" @blur="cancelEdit" @keyup.enter="actionEditTodo">
+        <div class="input-group" v-if="item.title === cacheTodo.title">
+        <input type="text" class="form-control" :key="item.key"
+        v-model="cacheTitle" @keyup.esc="cancelEdit" @keyup.enter="actionEditTodo">
         <div class="input-group-append">
-          <button class="btn btn-primary" type="button" @click="cancelEdit">確認</button>
+          <button class="btn btn-primary" type="button" @click="actionEditTodo">確認</button>
+          <button class="btn btn-secondary" type="button" @click="cancelEdit">取消</button>
         </div>
         </div>
       </li>
@@ -62,6 +63,7 @@ import {mapGetters, mapActions} from 'vuex';
 export default {
   data(){
     return {
+      cacheTitle:'',
       cacheTodo:{},
       visibility: 'all',
       newTodo: '',
@@ -77,14 +79,17 @@ export default {
     this.newTodo='';
   },
   editTodo(item){
-    this.cacheTodo = item;
+    this.cacheTodo = Object.assign({},item);
+    this.cacheTitle = item.title;
   },
   cancelEdit(){
     this.cacheTodo = {};
+    this.cacheTitle = '';
   },
   actionEditTodo(){
+    this.cacheTodo.title = this.cacheTitle;
     this.$store.dispatch('updateTodo',this.cacheTodo);
-    this.cacheTodo = {};
+    this.cacheTodo = {};  
   }
 
   },

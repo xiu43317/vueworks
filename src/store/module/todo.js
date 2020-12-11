@@ -78,8 +78,8 @@ const mutations = {
     //更新
     [types.UPDATE_TODO](state,obj){
         state.todos.forEach((item,index) =>{
-            if(parseInt(item.key) === parseInt(obj.cacheKey)){
-                item.title = obj.cacheTitle;
+            if(parseInt(item.key) === parseInt(obj.key)){
+                item.title = obj.title;
             }
         });
     },
