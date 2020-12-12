@@ -11,6 +11,7 @@ filter different type items.
 <h2>Reference:</h2>
 <a href="https://www.hexschool.com/">六角學院</a><br>
 <a href="https://www.imooc.com/">慕课网（IMOOC)</a><br>
+<a href="https://www.w3schools.com/w3css/tryw3css_templates_clothing_store.htm">Shop Template</a>
 <a href="https://vuejs.org/v2/guide/">Vue official website</a><br>
 <a href="https://ithelp.ithome.com.tw/users/20103326/ironman/1114">實作小範例入門 Vue & Vuex 2.0</a><br>
 
