@@ -27,7 +27,7 @@ export const actions = {
         // 使用 Promise 包裝 API
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                if (email === 'xiu43317@gmail.com' && password === '1234') {
+                if (email === 'abc@helloVue.com' && password === '1234') {
                     //console.log('2. Promise resolve');
                     commit(types.TOKEN, '3345678'); // success 儲存 token
                     commit(types.LOADING, false); // 關閉遮罩

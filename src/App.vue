@@ -63,7 +63,7 @@ export default {
     window.addEventListener('scroll',()=>{
       this.scrollTop = document.documentElement.scrollTop
       // 控制按鈕隱藏跟顯示
-      if(this.scrollTop > 200){
+      if(this.scrollTop > 300){
         this.isScrollTop = true;
       }else{
         this.isScrollTop = false;

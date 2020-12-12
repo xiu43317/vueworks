@@ -65,6 +65,9 @@
           >
             {{ $t("Sign_in") }}
           </button>
+          <br/>
+          <small>email:abc@helloVue.com</small>
+          <small>password:1234</small>
         </div>
       </div>
     </div>
