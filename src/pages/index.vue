@@ -79,7 +79,7 @@ export default {
       email: "",
       password: "",
       togglePassword: false,
-      lang: "en",
+      lang: this.$store.state.lang,
     };
   },
   methods: {
@@ -91,7 +91,6 @@ export default {
           password: this.password,
         })
         .then(() => {
-          // 使用 $router.push 轉跳到 hello Page
           //console.log("3. get Promise resolve");
           setTimeout(() => {
             //this.$router.push("/hello");
@@ -118,6 +117,7 @@ export default {
     },
     setLang(value) {
       // 要改變語系預設必需給值給locale
+      this.$store.dispatch('setLanguage',value);
       this.$i18n.locale = value;
     },
   },

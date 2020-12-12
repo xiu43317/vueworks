@@ -157,7 +157,6 @@ const mutations = {
       confirmButtonText: '確認',
       cancelButtonText: '放棄',
       showCloseButton: true,
-      showLoaderOnConfirm: true
     }).then((result) => {
       if(result.value) {
         Vue.swal('購買成功', '感謝你的購買', 'success');

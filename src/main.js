@@ -10,6 +10,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import "./directive/custom-directive"
 import en from './i18n/en.json'; // 存放英文翻譯
 import tw from './i18n/tw.json'; // 存放繁體中文翻譯
+import { state } from './store/root';
 
 Vue.config.productionTip = false
 
@@ -20,7 +21,7 @@ Vue.use(VueSweetalert2);
 
 // 目前的語系寫法先產生一個物件，類似store的做法
 const i18n = new VueI18n({
-  locale: Vue.config.lang,
+  locale: store.state.lang,
   messages: {
     en,
     tw,

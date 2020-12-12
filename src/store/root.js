@@ -4,16 +4,21 @@ export const state = {
     loading: false,
     login: false,
     token: '',
+    lang: 'en',
 }
 
 export const getters = {
     getLoading: state => state.loading,
     getLogin: state => state.login,
+    getLanguage: state => state.lang,
 }
 
 export const actions = {
     toggleLoading({ commit }, isLoading) {
         commit(types.LOADING, isLoading);
+    },
+    setLanguage({commit},lang) {
+        commit(types.LANGUAGE,lang);
     },
     // login
     actionLogin({ commit }, { email, password }) {
@@ -53,4 +58,7 @@ export const mutations = {
             state.login = false;
         }
     },
+    [types.LANGUAGE](state,lang){
+        state.lang = lang;
+    }
 }
