@@ -1,7 +1,7 @@
 # shoppingcart
 
 > A Vue project 
-<a href="https://xiu43317.github.io/vueworks/"><h2>Demo</></a>
+<a href="https://xiu43317.github.io/vueworks/"><h2>Demo<h2/></a>
 
 ## Build Setup
 
