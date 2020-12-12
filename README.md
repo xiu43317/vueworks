@@ -8,7 +8,7 @@ you can press the file icon to see your order. At last, the typical todolist is 
 filter different type items.
 <a href="https://xiu43317.github.io/vueworks/"><h2>Demo<h2/></a>
 
-<p>Reference:</p>
+<h2>Reference:</h2>
 <a href="https://ithelp.ithome.com.tw/users/20103326/ironman/1114">實作小範例入門 Vue & Vuex 2.0</a><br>
 <a href="https://vuejs.org/v2/guide/">Vue official website</a><br>
 <a href="https://www.hexschool.com/">六角學院</a><br>
